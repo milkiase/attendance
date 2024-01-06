@@ -1,0 +1,1 @@
+export const selectStudents = (state)=> state.students.students
