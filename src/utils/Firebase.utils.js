@@ -48,11 +48,8 @@ export const fetchStudents = async()=>{
 
 export const updateStudent = async(newStudent)=>{
   try {
-    await setDoc(doc(db, 'students', newStudent.firebaseId), {
-      id: newStudent.id,
-      name: newStudent.name,
-      hasAttended: newStudent.hasAttended
-    })
+    // console.log('updating student to firebase')
+    await setDoc(doc(db, 'students', newStudent.firebaseId), newStudent)
     return
   } catch (error) {
     throw Error
@@ -61,7 +58,7 @@ export const updateStudent = async(newStudent)=>{
 
 export const createStudent = async(newStudent)=>{
   try {
-    const response = await addDoc(studentsCollection, {...newStudent, hasAttended: false, dateAttended: new Date().toJSON().slice(0,10).replace(/-/g,'/')})
+    const response = await addDoc(studentsCollection, {...newStudent, attendance: []})
     return response.id
   } catch (error) {
     throw error

@@ -16,11 +16,12 @@ const RegisterScreen = () => {
     const handleAddStudent = async()=>{
         try {
             const firebaseId = await createStudent({id, name})
-            const newStudent = {id, name, hasAttended: false, firebaseId}
+            // const newStudent = {id, name, hasAttended: false, firebaseId}
+            const newStudent = {id: id.toUpperCase(), name, attendance: [], firebaseId}
             dispatch(addStudent(newStudent))
             navigate('List')
         } catch (error) {
-            console.log('error registering studnet')
+            console.log('error registering student')
         }
     }
     return (

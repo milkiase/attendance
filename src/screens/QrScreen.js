@@ -7,6 +7,7 @@ import { attendStudent } from '../store/students/studentsSlice';
 import { useNavigation } from '@react-navigation/native';
 import { selectStudents } from '../store/students/studentsSelector';
 import { updateStudent } from '../utils/Firebase.utils';
+import { getDateFormat } from '../utils/attendance.utils';
 
 export default function QrScreen() {
     const dispatch = useDispatch()
@@ -24,13 +25,12 @@ export default function QrScreen() {
     const handleBarcodeScan = async(params)=>{
       try {
         const targetStudent = students.find((student)=>student.id === params.data)
-        await updateStudent({...targetStudent, hasAttended: true})
-        dispatch(attendStudent({id:params.data}))
+        await updateStudent({...targetStudent, attendance: [...targetStudent.attendance, getDateFormat(new Date())]})
+        dispatch(attendStudent({id:params.data, date: getDateFormat(new Date()), canUncheck: false}))
         navigation.navigate('List')
       } catch (error) {
         console.log('error scanning student', error)
       }
-
     }
 
   return (
